@@ -18,4 +18,4 @@ Advanced usage with persistent storage:
   * `chown -R 503:503 /data/teamspeak`
 
 2. Start container:
-  * `docker run -d --net=host --name teamspeak -v /data/teamspeak:/data -v /data/teamspeak/ts3server.sqlitedb:/opt/teamspeak/ts3server.sqlitedb mbentley/teamspeak logpath=/data/logs/ query_ip_whitelist=/data/query_ip_whitelist.txt query_ip_blacklist=/data/query_ip_blacklist.txt`
+  * `docker run -d --restart=always --net=host --name teamspeak -v /data/teamspeak:/data -v /data/teamspeak/ts3server.sqlitedb:/opt/teamspeak/ts3server.sqlitedb mbentley/teamspeak logpath=/data/logs/ query_ip_whitelist=/data/query_ip_whitelist.txt query_ip_blacklist=/data/query_ip_blacklist.txt`
