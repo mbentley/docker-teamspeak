@@ -1,7 +1,7 @@
 mbentley/teamspeak
 ==================
 
-docker image for teamspeak3
+docker image for teamspeak
 based off of debian:jessie
 
 To pull this image:
