@@ -16,4 +16,4 @@ RUN (groupadd -g 503 teamspeak &&\
 
 EXPOSE 9987/udp 10011 30033
 USER teamspeak
-CMD ["/opt/teamspeak/ts3server_minimal_runscript.sh"]
+ENTRYPOINT ["/opt/teamspeak/ts3server_minimal_runscript.sh"]
