@@ -1,11 +1,13 @@
 mbentley/teamspeak
 ==================
 
-docker image for teamspeak
+docker image for TeamSpeak 3 Server
 based off of debian:jessie
 
 To pull this image:
 `docker pull mbentley/teamspeak`
+
+Note: This Dockerfile will always install the very latest version of TS3 available.
 
 Example usage (no persistent storage; for testing only - you will lose your data when the container is removed):
 
