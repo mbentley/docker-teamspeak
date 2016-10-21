@@ -15,8 +15,9 @@ Example usage (no persistent storage; for testing only - you will lose your data
 
 Advanced usage with persistent storage:
 
-1. Create necessary directories, files, and set permissions:
+1. On your host, create necessary directories, files, and set permissions:
   * `mkdir -p /data/teamspeak`
+  * `mkdir /data/teamspeak/files`
   * `touch /data/teamspeak/ts3server.sqlitedb`
   * `chown -R 503:503 /data/teamspeak`
 
@@ -25,6 +26,7 @@ Advanced usage with persistent storage:
     docker run -d --restart=always --name teamspeak \
       -p 9987:9987/udp -p 30033:30033 -p 10011:10011 -p 41144:41144 \
       -v /data/teamspeak:/data \
+      -v /data/teamspeak/files:/opt/teamspeak/files \
       -v /data/teamspeak/ts3server.sqlitedb:/opt/teamspeak/ts3server.sqlitedb \
       mbentley/teamspeak \
       logpath=/data/logs/ \
