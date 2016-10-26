@@ -7,8 +7,9 @@ RUN apt-get update && apt-get install -y bzip2 w3m wget && rm -rf /var/lib/apt/l
   tar jxf /tmp/teamspeak.tar.bz2 -C /opt &&\
   mv /opt/teamspeak3-server_* /opt/teamspeak &&\
   rm /tmp/teamspeak.tar.bz2 &&\
-  apt-get purge -y bzip2 w3m &&\
-  apt-get autoremove -y
+  apt-get purge -y bzip2 w3m wget &&\
+  apt-get autoremove -y &&\
+  rm -rf /var/lib/apt/lists/*
 
 RUN groupadd -g 503 teamspeak &&\
   useradd -u 503 -g 503 -d /opt/teamspeak teamspeak &&\
