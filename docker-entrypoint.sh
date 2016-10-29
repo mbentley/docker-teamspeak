@@ -9,8 +9,13 @@ trap stop INT
 trap stop TERM
 
 test -d /data/files || mkdir -p /data/files && chown teamspeak:teamspeak /data/files
-ln -s /data/files $TS_DIRECTORY/files
+test -e $TS_DIRECTORY/files || ln -s /data/files $TS_DIRECTORY/files
 
+test -d /data/logs || mkdir -p /data/logs && chown teamspeak:teamspeak /data/logs
+test -e $TS_DIRECTORY/logs || ln -s /data/logs $TS_DIRECTORY/logs
+
+ln -s /data/query_ip_whitelist.txt $TS_DIRECTORY/query_ip_whitelist.txt
+ln -s /data/query_ip_blacklist.txt $TS_DIRECTORY/query_ip_blacklist.txt
 ln -s /data/ts3server.ini $TS_DIRECTORY/ts3server.ini
 ln -s /data/ts3server.sqlitedb $TS_DIRECTORY/ts3server.sqlitedb
 ln -s /data/ts3server.sqlitedb-shm $TS_DIRECTORY/ts3server.sqlitedb-shm

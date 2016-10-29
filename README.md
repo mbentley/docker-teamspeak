@@ -24,10 +24,7 @@ Example usage (no persistent storage; for testing only - you will lose your data
     docker run -d --restart=always --name teamspeak \
       -p 9987:9987/udp -p 30033:30033 -p 10011:10011 -p 41144:41144 \
       -v /data/teamspeak:/data \
-      mbentley/teamspeak \
-      logpath=/data/logs/ \
-      query_ip_whitelist=/data/query_ip_whitelist.txt \
-      query_ip_blacklist=/data/query_ip_blacklist.txt
+      mbentley/teamspeak
     ```
 
 In order to get the credentials for your TS server, check the container logs as it will output the `serveradmin` password and your `ServerAdmin` privilege key.
