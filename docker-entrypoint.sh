@@ -11,6 +11,7 @@ trap stop TERM
 test -d /data/files || mkdir -p /data/files && chown teamspeak:teamspeak /data/files
 ln -s /data/files $TS_DIRECTORY/files
 
+ln -s /data/ts3server.ini $TS_DIRECTORY/ts3server.ini
 ln -s /data/ts3server.sqlitedb $TS_DIRECTORY/ts3server.sqlitedb
 ln -s /data/ts3server.sqlitedb-shm $TS_DIRECTORY/ts3server.sqlitedb-shm
 ln -s /data/ts3server.sqlitedb-wal $TS_DIRECTORY/ts3server.sqlitedb-wal
