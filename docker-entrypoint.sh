@@ -9,23 +9,23 @@ trap stop INT
 trap stop TERM
 
 test -d /data/files || mkdir -p /data/files && chown teamspeak:teamspeak /data/files
-test -e $TS_DIRECTORY/files || ln -s /data/files $TS_DIRECTORY/files
+ln -sf /data/files $TS_DIRECTORY/files
 
 test -d /data/logs || mkdir -p /data/logs && chown teamspeak:teamspeak /data/logs
-test -e $TS_DIRECTORY/logs || ln -s /data/logs $TS_DIRECTORY/logs
+ln -sf /data/logs $TS_DIRECTORY/logs
 
-test -e $TS_DIRECTORY/query_ip_whitelist.txt || ln -s /data/query_ip_whitelist.txt $TS_DIRECTORY/query_ip_whitelist.txt
-test -e $TS_DIRECTORY/query_ip_blacklist.txt || ln -s /data/query_ip_blacklist.txt $TS_DIRECTORY/query_ip_blacklist.txt
-test -e $TS_DIRECTORY/ts3server.ini || ln -s /data/ts3server.ini $TS_DIRECTORY/ts3server.ini
-test -e $TS_DIRECTORY/ts3server.sqlitedb || ln -s /data/ts3server.sqlitedb $TS_DIRECTORY/ts3server.sqlitedb
-test -e $TS_DIRECTORY/ts3server.sqlitedb-shm || ln -s /data/ts3server.sqlitedb-shm $TS_DIRECTORY/ts3server.sqlitedb-shm
-test -e $TS_DIRECTORY/ts3server.sqlitedb-wal || ln -s /data/ts3server.sqlitedb-wal $TS_DIRECTORY/ts3server.sqlitedb-wal
+ln -sf /data/query_ip_whitelist.txt $TS_DIRECTORY/query_ip_whitelist.txt
+ln -sf /data/query_ip_blacklist.txt $TS_DIRECTORY/query_ip_blacklist.txt
+ln -sf /data/ts3server.ini $TS_DIRECTORY/ts3server.ini
+ln -sf /data/ts3server.sqlitedb $TS_DIRECTORY/ts3server.sqlitedb
+ln -sf /data/ts3server.sqlitedb-shm $TS_DIRECTORY/ts3server.sqlitedb-shm
+ln -sf /data/ts3server.sqlitedb-wal $TS_DIRECTORY/ts3server.sqlitedb-wal
 
 # licensekey exists but is not linked
 if [ -f /data/licensekey.dat ] && [ ! -e $TS_DIRECTORY/licensekey.dat ]
 then
 	echo "Link licensekey.dat"
-	ln -s /data/licensekey.dat $TS_DIRECTORY/licensekey.dat
+	ln -sf /data/licensekey.dat $TS_DIRECTORY/licensekey.dat
 fi
 # licensekey does not exist but is linked
 if [ ! -f /data/licensekey.dat ] && [ -e $TS_DIRECTORY/licensekey.dat ]
