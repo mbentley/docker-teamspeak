@@ -15,6 +15,8 @@ RUN groupadd -g 503 teamspeak &&\
   useradd -u 503 -g 503 -d /opt/teamspeak teamspeak &&\
   chown -R teamspeak:teamspeak /opt/teamspeak
 
+COPY docker-entrypoint.sh /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
+
 EXPOSE 9987/udp 10011 30033
 USER teamspeak
-ENTRYPOINT ["/opt/teamspeak/ts3server_minimal_runscript.sh"]
