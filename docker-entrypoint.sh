@@ -8,5 +8,25 @@ function stop {
 trap stop INT
 trap stop TERM
 
-exec /opt/teamspeak/ts3server_minimal_runscript.sh $@ &
+test -d /data/files || mkdir -p /data/files && chown teamspeak:teamspeak /data/files
+ln -s /data/files $TS_DIRECTORY/files
+
+ln -s /data/ts3server.sqlitedb $TS_DIRECTORY/ts3server.sqlitedb
+ln -s /data/ts3server.sqlitedb-shm $TS_DIRECTORY/ts3server.sqlitedb-shm
+ln -s /data/ts3server.sqlitedb-wal $TS_DIRECTORY/ts3server.sqlitedb-wal
+
+# licensekey exists but is not linked
+if [ -f /data/licensekey.dat ] && [ ! -e $TS_DIRECTORY/licensekey.dat ]
+then
+	echo "Link licensekey.dat"
+	ln -s /data/licensekey.dat $TS_DIRECTORY/licensekey.dat
+fi
+# licensekey does not exist but is linked
+if [ ! -f /data/licensekey.dat ] && [ -e $TS_DIRECTORY/licensekey.dat ]
+then
+	echo "Unlink licensekey.dat"
+	rm $TS_DIRECTORY/licensekey.dat
+fi
+
+exec $TS_DIRECTORY/ts3server_minimal_runscript.sh $@ &
 wait
