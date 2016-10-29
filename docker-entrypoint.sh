@@ -8,5 +8,5 @@ function stop {
 trap stop INT
 trap stop TERM
 
-exec /opt/teamspeak/ts3server_minimal_runscript.sh &
+exec /opt/teamspeak/ts3server_minimal_runscript.sh $@ &
 wait
