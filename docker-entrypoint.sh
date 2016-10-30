@@ -16,18 +16,29 @@ test -d /data/files || mkdir -p /data/files && chown teamspeak:teamspeak /data/f
 # create directory for teamspeak logs
 test -d /data/logs || mkdir -p /data/logs && chown teamspeak:teamspeak /data/logs
 
-# create default files
-touch /data/query_ip_whitelist.txt /data/query_ip_blacklist.txt /data/ts3server.ini /data/ts3server.sqlitedb /data/ts3server.sqlitedb-shm /data/ts3server.sqlitedb-wal
-
 # create symlinks for all files and directories in the persistent data directory
 cd $TS_DIRECTORY
 for i in $(ls /data)
 do
-  ln -sf /data/${i}
+	ln -sf /data/${i}
 done
 
 # remove broken symlinks
 find -L $TS_DIRECTORY -type l -delete
+
+# create symlinks for static files
+STATIC_FILES=(
+	query_ip_whitelist.txt
+	query_ip_blacklist.txt
+	ts3server.ini
+	ts3server.sqlitedb
+	ts3server.sqlitedb-shm
+	ts3server.sqlitedb-wal
+)
+for i in ${STATIC_FILES[@]}
+do
+	ln -sf /data/${i}
+done
 
 exec $TS_DIRECTORY/ts3server_minimal_runscript.sh $@ &
 wait
