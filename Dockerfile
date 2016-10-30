@@ -15,7 +15,8 @@ RUN apt-get update && apt-get install -y bzip2 w3m wget && rm -rf /var/lib/apt/l
 
 RUN groupadd -g 503 teamspeak &&\
   useradd -u 503 -g 503 -d ${TS_DIRECTORY} teamspeak &&\
-  chown -R teamspeak:teamspeak ${TS_DIRECTORY}
+  mkdir /data &&\
+  chown -R teamspeak:teamspeak ${TS_DIRECTORY} /data
 
 COPY docker-entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]

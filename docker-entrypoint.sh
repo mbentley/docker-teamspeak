@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -e
+
 function stop {
 	kill $(ps -C ts3server -o pid= | awk '{ print $1; }')
 	exit
@@ -8,31 +10,24 @@ function stop {
 trap stop INT
 trap stop TERM
 
+# create directory for teamspeak files
 test -d /data/files || mkdir -p /data/files && chown teamspeak:teamspeak /data/files
-ln -sf /data/files $TS_DIRECTORY/files
 
+# create directory for teamspeak logs
 test -d /data/logs || mkdir -p /data/logs && chown teamspeak:teamspeak /data/logs
-ln -sf /data/logs $TS_DIRECTORY/logs
 
-ln -sf /data/query_ip_whitelist.txt $TS_DIRECTORY/query_ip_whitelist.txt
-ln -sf /data/query_ip_blacklist.txt $TS_DIRECTORY/query_ip_blacklist.txt
-ln -sf /data/ts3server.ini $TS_DIRECTORY/ts3server.ini
-ln -sf /data/ts3server.sqlitedb $TS_DIRECTORY/ts3server.sqlitedb
-ln -sf /data/ts3server.sqlitedb-shm $TS_DIRECTORY/ts3server.sqlitedb-shm
-ln -sf /data/ts3server.sqlitedb-wal $TS_DIRECTORY/ts3server.sqlitedb-wal
+# create default files
+touch /data/query_ip_whitelist.txt /data/query_ip_blacklist.txt /data/ts3server.ini /data/ts3server.sqlitedb /data/ts3server.sqlitedb-shm /data/ts3server.sqlitedb-wal
 
-# licensekey exists but is not linked
-if [ -f /data/licensekey.dat ] && [ ! -e $TS_DIRECTORY/licensekey.dat ]
-then
-	echo "Link licensekey.dat"
-	ln -sf /data/licensekey.dat $TS_DIRECTORY/licensekey.dat
-fi
-# licensekey does not exist but is linked
-if [ ! -f /data/licensekey.dat ] && [ -e $TS_DIRECTORY/licensekey.dat ]
-then
-	echo "Unlink licensekey.dat"
-	rm $TS_DIRECTORY/licensekey.dat
-fi
+# create symlinks for all files and directories in the persistent data directory
+cd $TS_DIRECTORY
+for i in $(ls /data)
+do
+  ln -sf /data/${i}
+done
+
+# remove broken symlinks
+find -L $TS_DIRECTORY -type l -delete
 
 exec $TS_DIRECTORY/ts3server_minimal_runscript.sh $@ &
 wait
