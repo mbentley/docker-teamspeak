@@ -17,14 +17,14 @@ test -d /data/files || mkdir -p /data/files && chown teamspeak:teamspeak /data/f
 test -d /data/logs || mkdir -p /data/logs && chown teamspeak:teamspeak /data/logs
 
 # create symlinks for all files and directories in the persistent data directory
-cd $TS_DIRECTORY
+cd ${TS_DIRECTORY}
 for i in $(ls /data)
 do
 	ln -sf /data/${i}
 done
 
 # remove broken symlinks
-find -L $TS_DIRECTORY -type l -delete
+find -L ${TS_DIRECTORY} -type l -delete
 
 # create symlinks for static files
 STATIC_FILES=(
@@ -40,5 +40,5 @@ do
 	ln -sf /data/${i}
 done
 
-exec $TS_DIRECTORY/ts3server_minimal_runscript.sh $@ &
-wait
+export LD_LIBRARY_PATH=".:$LD_LIBRARY_PATH"
+exec /tini -- ./ts3server $@

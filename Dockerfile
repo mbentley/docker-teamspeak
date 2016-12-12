@@ -18,8 +18,13 @@ RUN groupadd -g 503 teamspeak &&\
   mkdir /data &&\
   chown -R teamspeak:teamspeak ${TS_DIRECTORY} /data
 
-COPY docker-entrypoint.sh /entrypoint.sh
-ENTRYPOINT ["/entrypoint.sh"]
+# add tini (https://github.com/krallin/tini)
+ENV TINI_VERSION v0.13.1
+ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
+RUN chmod +x /tini
 
-EXPOSE 9987/udp 10011 30033
+COPY entrypoint.sh /entrypoint.sh
+
 USER teamspeak
+EXPOSE 9987/udp 10011 30033
+ENTRYPOINT ["/entrypoint.sh"]
