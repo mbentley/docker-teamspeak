@@ -11,7 +11,14 @@ Note: This Dockerfile will always install the very latest version of TS3 availab
 
 Example usage (no persistent storage; for testing only - you will lose your data when the container is removed):
 
-`docker run -d --name teamspeak -p 9987:9987/udp -p 30033:30033 -p 10011:10011 -p 41144:41144 mbentley/teamspeak`
+`docker run -d --name teamspeak -e TS3SERVER_LICENSE=accept -p 9987:9987/udp -p 30033:30033 -p 10011:10011 -p 41144:41144 mbentley/teamspeak`
+
+### License Agreement
+
+Starting with [TeamSpeak 3.1.0](https://support.teamspeakusa.com/index.php?/Knowledgebase/Article/View/344/16/how-to-accept-the-server-license-agreement-server--310), the license agreement must be accepted before you can run TeamSpeak.  To accept the agreement, you need to do one of the following:
+  * Add the following to your run command: `-e TS3SERVER_LICENSE=accept` to pass an environment variable
+  * Add a command line parameter at the end of your run command to accept the license `license_accepted=1`
+  * Create a file named `.ts3server_license_accepted` in the persistent storage directory
 
 ### Advanced usage with persistent storage:
 
@@ -22,6 +29,7 @@ Example usage (no persistent storage; for testing only - you will lose your data
 2. Start container:
     ```
     docker run -d --restart=always --name teamspeak \
+      -e TS3SERVER_LICENSE=accept \
       -p 9987:9987/udp -p 30033:30033 -p 10011:10011 -p 41144:41144 \
       -v /data/teamspeak:/data \
       mbentley/teamspeak
@@ -34,6 +42,7 @@ For additional parameters, check the `(6) Commandline Parameters` section of the
 Example:
 ```
 docker run -d --restart=always --name teamspeak \
+  -e TS3SERVER_LICENSE=accept \
   -p 9987:9987/udp -p 30033:30033 -p 10011:10011 -p 41144:41144 \
   -v /data/teamspeak:/data \
   mbentley/teamspeak \
