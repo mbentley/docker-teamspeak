@@ -34,11 +34,21 @@ STATIC_FILES=(
   ts3server.sqlitedb
   ts3server.sqlitedb-shm
   ts3server.sqlitedb-wal
+  .ts3server_license_accepted
 )
 for i in "${STATIC_FILES[@]}"
 do
   ln -sf /data/"${i}"
 done
+
+# check to see if license agreement method has been passed (this doesn't validate the license agreement acceptance; just a basic check)
+if [ -f "${TS_DIRECTORY}/.ts3server_license_accepted" ] || [[ "$*" = *"license_accepted=1"* ]] || [ "${TS3SERVER_LICENSE}" = "accept" ]
+then
+  echo "Found a license agreement method; launching TeamSpeak"
+else
+  echo "Warning: license agreement method hasn't been passed; see the README (https://github.com/mbentley/docker-teamspeak#license-agreement) for how to do so with this Docker image"
+  echo -e "Note: if you're running TeamSpeak < 3.1.0; you can safely ignore this message\\n"
+fi
 
 export LD_LIBRARY_PATH=".:$LD_LIBRARY_PATH"
 exec /tini -- ./ts3server "$@"
