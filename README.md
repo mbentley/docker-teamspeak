@@ -8,8 +8,8 @@ based off of debian:jessie
 
 There are now two images; one is built on Alpine Linux and is about 37 MB with TS3; the other is debian:jessie and that image with TS3 is about 179 MB.
 
-`latest`, `alpine` - based on Alpine Linux
-`debian` - based on Debian Jessie
+- `latest`, `alpine` - based on Alpine Linux
+- `debian` - based on Debian Jessie
 
 To pull this image:
 `docker pull mbentley/teamspeak`
