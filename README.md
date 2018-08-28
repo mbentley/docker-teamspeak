@@ -18,7 +18,12 @@ Note: This Dockerfile will always install the very latest version of TS3 availab
 
 Example usage (no persistent storage; for testing only - you will lose your data when the container is removed):
 
-`docker run -d --name teamspeak -e TS3SERVER_LICENSE=accept -p 9987:9987/udp -p 30033:30033 -p 10011:10011 -p 41144:41144 mbentley/teamspeak`
+```
+docker run -d --name teamspeak \
+  -e TS3SERVER_LICENSE=accept \
+  -p 9987:9987/udp -p 30033:30033 -p 10011:10011 -p 41144:41144 \
+  mbentley/teamspeak
+```
 
 ### License Agreement
 

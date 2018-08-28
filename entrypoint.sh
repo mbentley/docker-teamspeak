@@ -12,7 +12,7 @@ test -d /data/logs || mkdir -p /data/logs && chown teamspeak:teamspeak /data/log
 cd "${TS_DIRECTORY}"
 for i in /data/*
 do
-  ln -sf "${i}"
+  ln -sf "${i}" .
 done
 
 # remove broken symlinks
@@ -23,7 +23,7 @@ STATIC_FILES="query_ip_whitelist.txt query_ip_blacklist.txt ts3server.ini ts3ser
 
 for i in ${STATIC_FILES}
 do
-  ln -sf /data/"${i}"
+  ln -sf /data/"${i}" .
 done
 
 # check to see if license agreement method has been passed (this doesn't validate the license agreement acceptance; just a basic check)
