@@ -6,7 +6,7 @@ ENV TS_DIRECTORY=/opt/teamspeak
 # install the latest teamspeak
 RUN apk add --no-cache bzip2 ca-certificates coreutils libstdc++ tini w3m &&\
   TS_SERVER_VER="$(w3m -dump https://www.teamspeak.com/downloads | grep -m 1 'Server 64-bit ' | awk '{print $NF}')" &&\
-  wget http://dl.4players.de/ts/releases/${TS_SERVER_VER}/teamspeak3-server_linux_alpine-${TS_SERVER_VER}.tar.bz2 -O /tmp/teamspeak.tar.bz2 &&\
+  wget https://files.teamspeak-services.com/releases/server/${TS_SERVER_VER}/teamspeak3-server_linux_alpine-${TS_SERVER_VER}.tar.bz2 -O /tmp/teamspeak.tar.bz2 &&\
   mkdir -p /opt &&\
   tar jxf /tmp/teamspeak.tar.bz2 -C /opt &&\
   mv /opt/teamspeak3-server_* ${TS_DIRECTORY} &&\
