@@ -35,5 +35,14 @@ else
   echo "Note: if you're running TeamSpeak < 3.1.0; you can safely ignore this message"; echo
 fi
 
+# holding the current TS3 Server arguments
+TS3ServerArgs="$@"
+
+# check to see serveradmin password has been set as an environment variable
+if [ ! -z $TS3SERVER_ADMIN_PASSWORD ]; then
+  echo "Found a environment override for ServerAdmin password"
+  TS3ServerArgs="$TS3ServerArgs serveradmin_password=$TS3SERVER_ADMIN_PASSWORD"
+fi
+
 export LD_LIBRARY_PATH=".:$LD_LIBRARY_PATH"
-exec /sbin/tini -- ./ts3server "$@"
+exec /sbin/tini -- ./ts3server "$TS3ServerArgs"
