@@ -51,6 +51,8 @@ Starting with [TeamSpeak 3.1.0](https://support.teamspeakusa.com/index.php?/Know
 
 In order to get the credentials for your TS server, check the container logs as it will output the `serveradmin` password and your `ServerAdmin` privilege key.
 
+## Additional Parameters
+
 For additional parameters, check the `(6) Commandline Parameters` section of the `TeamSpeak 3 Server Quickstart Guide`.  You can also get Either add the parameters to `ts3server.ini` or specify them after the Docker image name.  The quickstart guide ships with the image and can be viewed with:
 
 ```
