@@ -36,4 +36,4 @@ else
 fi
 
 export LD_LIBRARY_PATH=".:$LD_LIBRARY_PATH"
-exec /sbin/tini -- ./ts3server "$@"
+exec /usr/bin/tini -- ./ts3server "$@"
