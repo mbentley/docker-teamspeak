@@ -1,10 +1,11 @@
-FROM debian:stretch
+FROM debian:buster
 MAINTAINER Matt Bentley <mbentley@mbentley.net>
 
 ENV TS_DIRECTORY=/opt/teamspeak
 
 # install the latest teamspeak
-RUN apt-get update && apt-get install -y bzip2 locales w3m wget && rm -rf /var/lib/apt/lists/* &&\
+RUN apt-get update &&\
+  DEBIAN_FRONTEND=noninteractive apt-get install -y bzip2 locales tini w3m wget && rm -rf /var/lib/apt/lists/* &&\
   TS_SERVER_VER="$(w3m -dump https://www.teamspeak.com/downloads | grep -m 1 'Server 64-bit ' | awk '{print $NF}')" &&\
   wget https://files.teamspeak-services.com/releases/server/${TS_SERVER_VER}/teamspeak3-server_linux_amd64-${TS_SERVER_VER}.tar.bz2 -O /tmp/teamspeak.tar.bz2 &&\
   tar jxf /tmp/teamspeak.tar.bz2 -C /opt &&\
@@ -26,11 +27,6 @@ RUN groupadd -g 503 teamspeak &&\
   useradd -u 503 -g 503 -d ${TS_DIRECTORY} teamspeak &&\
   mkdir /data &&\
   chown -R teamspeak:teamspeak ${TS_DIRECTORY} /data
-
-# add tini (https://github.com/krallin/tini)
-ENV TINI_VERSION v0.18.0
-ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /sbin/tini
-RUN chmod +x /sbin/tini
 
 COPY entrypoint.sh /entrypoint.sh
 

@@ -45,4 +45,4 @@ if [ ! -z $TS3SERVER_ADMIN_PASSWORD ]; then
 fi
 
 export LD_LIBRARY_PATH=".:$LD_LIBRARY_PATH"
-exec /sbin/tini -- ./ts3server "$TS3ServerArgs"
+exec tini -- ./ts3server "$TS3ServerArgs"
