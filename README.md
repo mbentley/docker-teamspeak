@@ -53,10 +53,10 @@ In order to get the credentials for your TS server, check the container logs as 
 
 ## Additional Parameters
 
-For additional parameters, check the `(6) Commandline Parameters` section of the `TeamSpeak 3 Server Quickstart Guide`.  You can also get Either add the parameters to `ts3server.ini` or specify them after the Docker image name.  The quickstart guide ships with the image and can be viewed with:
+For additional parameters, check the `Commandline Parameters` section of the `TeamSpeak Server - Quickstart Guide`.  You can also get Either add the parameters to `ts3server.ini` or specify them after the Docker image name.  The quickstart guide ships with the image and can be viewed with:
 
 ```
-docker run -t --rm --entrypoint cat mbentley/teamspeak /opt/teamspeak/doc/server_quickstart.txt
+docker run -t --rm --entrypoint cat mbentley/teamspeak /opt/teamspeak/doc/server_quickstart.md
 ```
 
 ## Example directly passing parameters
@@ -67,8 +67,7 @@ docker run -d --restart=always --name teamspeak \
   -p 9987:9987/udp -p 30033:30033 -p 10011:10011 -p 41144:41144 \
   -v /data/teamspeak:/data \
   mbentley/teamspeak \
-  clear_database=1 \
-  create_default_virtualserver=0
+  serveradmin_password=test1234
 ```
 
 ## Use a custom .ini file
