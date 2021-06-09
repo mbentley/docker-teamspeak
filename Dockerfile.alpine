@@ -3,6 +3,9 @@ MAINTAINER Matt Bentley <mbentley@mbentley.net>
 
 ENV TS_DIRECTORY=/opt/teamspeak
 
+# for cache busting
+ARG TS_SERVER_VER
+
 # install the latest teamspeak
 RUN apk add --no-cache bzip2 ca-certificates coreutils libstdc++ tini w3m &&\
   TS_SERVER_VER="$(w3m -dump https://www.teamspeak.com/downloads | grep -m 1 'Server 64-bit ' | awk '{print $NF}')" &&\
