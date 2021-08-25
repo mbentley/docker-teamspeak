@@ -17,9 +17,12 @@ RUN apk add --no-cache bzip2 ca-certificates coreutils libstdc++ tini w3m &&\
   apk del bzip2 w3m
 
 # create user, group, and set permissions
-RUN adduser -u 503 -g 503 -h ${TS_DIRECTORY} -D teamspeak &&\
-  mkdir /data &&\
-  chown -R teamspeak:teamspeak ${TS_DIRECTORY} /data
+RUN  echo "**** create teamspeak user and make our folders ****" && \
+ groupmod -g 1000 users && \
+ useradd -u 503 -U -d ${TS_DIRECTORY} -s /bin/false teamspeak && \
+ usermod -G users teamspeak && \
+ mkdir /data &&\
+ chown -R teamspeak:teamspeak ${TS_DIRECTORY} /data
 
 COPY entrypoint.sh /entrypoint.sh
 
