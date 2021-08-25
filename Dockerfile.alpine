@@ -1,4 +1,4 @@
-FROM alpine:latest
+FROM ghcr.io/linuxserver/baseimage-alpine-nginx:3.13
 MAINTAINER Matt Bentley <mbentley@mbentley.net>
 
 ENV TS_DIRECTORY=/opt/teamspeak
