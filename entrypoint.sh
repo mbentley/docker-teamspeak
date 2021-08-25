@@ -2,6 +2,50 @@
 
 set -e
 
+# set default variables
+PUID="${PUID:-503}"
+PGID="${PGID:-503}"
+TS_DIRECTORY="${TS_DIRECTORY:-}"
+
+# determine which OS we are running so we can create the user & group using the right tools
+case "$(. /etc/os-release; echo "${ID}")" in
+  alpine)
+    # set the su program
+    SU_APP="su-exec"
+
+    if id -u teamspeak > /dev/null 2>&1
+    then
+      echo "INFO: User exists; skipping creation"
+    else
+      echo "INFO: User doesn't exist; creating..."
+      adduser -u "${PUID}" -g "${PGID}" -h "${TS_DIRECTORY}" -D teamspeak
+    fi
+    ;;
+  debian)
+    # set the su program
+    SU_APP="gosu"
+
+    if id -u teamspeak > /dev/null 2>&1
+    then
+      echo "INFO: User exists; skipping creation"
+    else
+      echo "INFO: User doesn't exist; creating..."
+      groupadd -g "${PGID}" teamspeak
+      useradd -u "${PUID}" -g "${PGID}" -d "${TS_DIRECTORY}" teamspeak
+    fi
+    ;;
+  *)
+    echo "ERROR: unsupported OS detected"
+    exit 1
+    ;;
+esac
+
+# create data directory, if needed
+test -d /data || mkdir /data && chown -R teamspeak:teamspeak /data
+
+# set user/group ownership on the TS_DIRECTORY directory
+chown -R teamspeak:teamspeak "${TS_DIRECTORY}"
+
 # create directory for teamspeak files
 test -d /data/files || mkdir -p /data/files && chown teamspeak:teamspeak /data/files
 
@@ -36,4 +80,4 @@ else
 fi
 
 export LD_LIBRARY_PATH=".:$LD_LIBRARY_PATH"
-exec tini -- ./ts3server "$@"
+exec "${SU_APP}" teamspeak:teamspeak tini -- ./ts3server "$@"
