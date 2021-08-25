@@ -1,5 +1,5 @@
 FROM ghcr.io/linuxserver/baseimage-alpine-nginx:3.13
-MAINTAINER Matt Bentley <mbentley@mbentley.net>
+LABEL version="1.0" maintainer="Matt Bentley <mbentley@mbentley.net>" maintainer="Chad Hutchins <chadhutchins182@users.noreply.github.com>"
 
 ENV TS_DIRECTORY=/opt/teamspeak
 
