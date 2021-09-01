@@ -3,9 +3,13 @@ MAINTAINER Matt Bentley <mbentley@mbentley.net>
 
 ENV TS_DIRECTORY=/opt/teamspeak
 
+# for cache busting
+ARG TS_SERVER_VER
+ARG DEBIAN_FRONTEND=noninteractive
+
 # install the latest teamspeak
 RUN apt-get update &&\
-  DEBIAN_FRONTEND=noninteractive apt-get install -y bzip2 locales tini w3m wget && rm -rf /var/lib/apt/lists/* &&\
+  apt-get install -y bzip2 gosu locales tini w3m wget && rm -rf /var/lib/apt/lists/* &&\
   TS_SERVER_VER="$(w3m -dump https://www.teamspeak.com/downloads | grep -m 1 'Server 64-bit ' | awk '{print $NF}')" &&\
   wget https://files.teamspeak-services.com/releases/server/${TS_SERVER_VER}/teamspeak3-server_linux_amd64-${TS_SERVER_VER}.tar.bz2 -O /tmp/teamspeak.tar.bz2 &&\
   tar jxf /tmp/teamspeak.tar.bz2 -C /opt &&\
@@ -22,14 +26,7 @@ ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
 
-# create user, group, and set permissions
-RUN groupadd -g 503 teamspeak &&\
-  useradd -u 503 -g 503 -d ${TS_DIRECTORY} teamspeak &&\
-  mkdir /data &&\
-  chown -R teamspeak:teamspeak ${TS_DIRECTORY} /data
-
 COPY entrypoint.sh /entrypoint.sh
 
-USER teamspeak
 EXPOSE 9987/udp 10011 30033 41144
 ENTRYPOINT ["/entrypoint.sh"]
