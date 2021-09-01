@@ -1,11 +1,11 @@
 # mbentley/teamspeak
 
 docker image for TeamSpeak 3 Server
-based off of alpine:latest
+based off of `alpine:latest`
 or
-based off of debian:bullseye
+based off of `debian:bullseye`
 
-There are now two images; one is built on Alpine Linux and is about 37 MB with TS3; the other is debian:jessie and that image with TS3 is about 179 MB.
+There are now two images; one is built on Alpine Linux and is about 30 MB with TS3; the other is Debian and that image with TS3 is about 175 MB.  Both images are functionally the same.
 
 - `latest`, `alpine` - based on Alpine Linux
 - `debian` - based on Debian bullseye
@@ -13,7 +13,7 @@ There are now two images; one is built on Alpine Linux and is about 37 MB with T
 To pull this image:
 `docker pull mbentley/teamspeak`
 
-Note: This Dockerfile will always install the very latest version of TS3 available.
+**Note**: This Dockerfile will _always_ include the very latest version of TS3 available.  For updates, re-pull the image and re-create the container, with your persistent data stored outside of the container.
 
 Example usage (no persistent storage; for testing only - you will lose your data when the container is removed):
 
