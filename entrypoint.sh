@@ -79,5 +79,13 @@ else
   echo "Note: if you're running TeamSpeak < 3.1.0; you can safely ignore this message"; echo
 fi
 
-export LD_LIBRARY_PATH=".:$LD_LIBRARY_PATH"
+# check to see if TS3SERVER_GDPR_SAVE is true
+if [ "${TS3SERVER_GDPR_SAVE}" = "true" ]
+then
+  # overwrite the client_update_stats.sql file to drop the IP
+  echo "INFO: Updating 'client_update_stats.sql' to not log client IP addresses for GDPR..."
+  echo 'update clients set client_lastconnected=:client_lastconnected:, client_totalconnections=client_totalconnections+1 where client_id=:client_id: and server_id=:server_id:;' > /opt/teamspeak/sql/client_update_stats.sql
+fi
+
+export LD_LIBRARY_PATH=".:${LD_LIBRARY_PATH}"
 exec "${SU_APP}" teamspeak:teamspeak tini -- ./ts3server "$@"

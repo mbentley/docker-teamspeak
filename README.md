@@ -19,9 +19,10 @@ Example usage (no persistent storage; for testing only - you will lose your data
 
 ```
 docker run -d --name teamspeak \
-  -e TS3SERVER_LICENSE=accept \
   -e PUID=503 \
   -e PGID=503 \
+  -e TS3SERVER_GDPR_SAVE=false \
+  -e TS3SERVER_LICENSE=accept \
   -p 9987:9987/udp -p 30033:30033 -p 10011:10011 -p 41144:41144 \
   mbentley/teamspeak
 ```
@@ -47,6 +48,7 @@ Starting with [TeamSpeak 3.1.0](https://support.teamspeakusa.com/index.php?/Know
     docker run -d --restart=always --name teamspeak \
       -e PUID=503 \
       -e PGID=503 \
+      -e TS3SERVER_GDPR_SAVE=false \
       -e TS3SERVER_LICENSE=accept \
       -p 9987:9987/udp -p 30033:30033 -p 10011:10011 -p 41144:41144 \
       -v /data/teamspeak:/data \
@@ -58,6 +60,10 @@ In order to get the credentials for your TS server, check the container logs as 
 ## Setting a custom UID and GID
 
 In order to set a custom UID and GID of the teamspeak user/group, set the `PUID` and `PGID` environment variables as necessary.  Both default to `503` if not specified.
+
+## Disabling IP logging for GDPR
+
+In order to disable client IP address logging to adhere to GDPR, set `TS3SERVER_GDPR_SAVE` to `true`.  It defaults to `false`.
 
 ## Additional Parameters
 
@@ -73,6 +79,7 @@ docker run -t --rm --entrypoint cat mbentley/teamspeak /opt/teamspeak/doc/server
 docker run -d --restart=always --name teamspeak \
   -e PUID=503 \
   -e PGID=503 \
+  -e TS3SERVER_GDPR_SAVE=false \
   -e TS3SERVER_LICENSE=accept \
   -p 9987:9987/udp -p 30033:30033 -p 10011:10011 -p 41144:41144 \
   -v /data/teamspeak:/data \
