@@ -63,7 +63,7 @@ done
 find -L "${TS_DIRECTORY}" -type l -delete
 
 # create symlinks for static files
-STATIC_FILES="query_ip_whitelist.txt query_ip_blacklist.txt ts3server.ini ts3server.sqlitedb ts3server.sqlitedb-shm ts3server.sqlitedb-wal .ts3server_license_accepted"
+STATIC_FILES="query_ip_whitelist.txt query_ip_blacklist.txt query_ip_allowlist.txt query_ip_denylist.txt ts3server.ini ts3server.sqlitedb ts3server.sqlitedb-shm ts3server.sqlitedb-wal .ts3server_license_accepted"
 
 for i in ${STATIC_FILES}
 do
