@@ -1,5 +1,5 @@
 # rebased/repackaged base image that only updates existing packages
-FROM mbentley/debian:bullseye
+FROM mbentley/debian:bookworm
 LABEL maintainer="Matt Bentley <mbentley@mbentley.net>"
 
 ENV TS_DIRECTORY=/opt/teamspeak
@@ -10,11 +10,11 @@ ARG DEBIAN_FRONTEND=noninteractive
 
 # install the latest teamspeak
 RUN apt-get update &&\
-  apt-get install -y bzip2 gosu locales tini w3m wget && rm -rf /var/lib/apt/lists/* &&\
+  apt-get install -y --no-install-recommends bzip2 ca-certificates gosu locales tini w3m wget && rm -rf /var/lib/apt/lists/* &&\
   TS_SERVER_VER="$(w3m -dump https://www.teamspeak.com/downloads | grep -m 1 'Server 64-bit ' | awk '{print $NF}')" &&\
-  wget https://files.teamspeak-services.com/releases/server/${TS_SERVER_VER}/teamspeak3-server_linux_amd64-${TS_SERVER_VER}.tar.bz2 -O /tmp/teamspeak.tar.bz2 &&\
+  wget -nv "https://files.teamspeak-services.com/releases/server/${TS_SERVER_VER}/teamspeak3-server_linux_amd64-${TS_SERVER_VER}.tar.bz2" -O /tmp/teamspeak.tar.bz2 &&\
   tar jxf /tmp/teamspeak.tar.bz2 -C /opt &&\
-  mv /opt/teamspeak3-server_* ${TS_DIRECTORY} &&\
+  mv /opt/teamspeak3-server_* "${TS_DIRECTORY}" &&\
   rm /tmp/teamspeak.tar.bz2 &&\
   sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen &&\
   locale-gen &&\
@@ -23,9 +23,9 @@ RUN apt-get update &&\
   rm -rf /var/lib/apt/lists/*
 
 # set the locale
-ENV LANG en_US.UTF-8
-ENV LANGUAGE en_US:en
-ENV LC_ALL en_US.UTF-8
+ENV LANG=en_US.UTF-8
+ENV LANGUAGE=en_US:en
+ENV LC_ALL=en_US.UTF-8
 
 COPY entrypoint.sh /entrypoint.sh
 

@@ -3,12 +3,14 @@
 docker image for TeamSpeak 3 Server
 based off of `alpine:latest`
 or
-based off of `debian:bullseye`
+based off of `debian:bookworm`
+
+## Tags
 
 There are now two images; one is built on Alpine Linux and is about 30 MB with TS3; the other is Debian and that image with TS3 is about 175 MB.  Both images are functionally the same.
 
 - `latest`, `alpine` - based on Alpine Linux
-- `debian` - based on Debian bullseye
+- `debian` - based on Debian bookworm
 
 To pull this image:
 `docker pull mbentley/teamspeak`
