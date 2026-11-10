@@ -8,14 +8,14 @@ ENV TS_DIRECTORY=/opt/teamspeak
 ARG TS_SERVER_VER
 
 # install the latest teamspeak
-RUN apk add --no-cache bzip2 ca-certificates coreutils libstdc++ su-exec tini w3m &&\
-  TS_SERVER_VER="$(w3m -dump https://www.teamspeak.com/downloads | grep -m 1 'Server 64-bit ' | awk '{print $NF}')" &&\
+RUN apk add --no-cache bzip2 ca-certificates coreutils jq libstdc++ su-exec tini &&\
+  TS_SERVER_VER="$(wget -q -O - https://www.teamspeak.com/versions/server.json | jq -r '.linux.x86_64.version')" &&\
   wget -nv "https://files.teamspeak-services.com/releases/server/${TS_SERVER_VER}/teamspeak3-server_linux_alpine-${TS_SERVER_VER}.tar.bz2" -O /tmp/teamspeak.tar.bz2 &&\
   mkdir -p /opt &&\
   tar jxf /tmp/teamspeak.tar.bz2 -C /opt &&\
   mv /opt/teamspeak3-server_* ${TS_DIRECTORY} &&\
   rm /tmp/teamspeak.tar.bz2 &&\
-  apk del bzip2 w3m
+  apk del bzip2
 
 COPY entrypoint.sh /entrypoint.sh
 
