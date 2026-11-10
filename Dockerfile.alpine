@@ -4,12 +4,12 @@ LABEL maintainer="Matt Bentley <mbentley@mbentley.net>"
 
 ENV TS_DIRECTORY=/opt/teamspeak
 
-# for cache busting
+# optionally pin a specific version (e.g. --build-arg TS_SERVER_VER=3.13.7); also used for cache busting
 ARG TS_SERVER_VER
 
-# install the latest teamspeak
+# install teamspeak (the pinned version if TS_SERVER_VER is set, otherwise the latest)
 RUN apk add --no-cache bzip2 ca-certificates coreutils jq libstdc++ su-exec tini &&\
-  TS_SERVER_VER="$(wget -q -O - https://www.teamspeak.com/versions/server.json | jq -r '.linux.x86_64.version')" &&\
+  TS_SERVER_VER="${TS_SERVER_VER:-$(wget -q -O - https://www.teamspeak.com/versions/server.json | jq -r '.linux.x86_64.version')}" &&\
   wget -nv "https://files.teamspeak-services.com/releases/server/${TS_SERVER_VER}/teamspeak3-server_linux_alpine-${TS_SERVER_VER}.tar.bz2" -O /tmp/teamspeak.tar.bz2 &&\
   mkdir -p /opt &&\
   tar jxf /tmp/teamspeak.tar.bz2 -C /opt &&\

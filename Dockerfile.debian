@@ -4,14 +4,14 @@ LABEL maintainer="Matt Bentley <mbentley@mbentley.net>"
 
 ENV TS_DIRECTORY=/opt/teamspeak
 
-# for cache busting
+# optionally pin a specific version (e.g. --build-arg TS_SERVER_VER=3.13.7); also used for cache busting
 ARG TS_SERVER_VER
 ARG DEBIAN_FRONTEND=noninteractive
 
-# install the latest teamspeak
+# install teamspeak (the pinned version if TS_SERVER_VER is set, otherwise the latest)
 RUN apt-get update &&\
-  apt-get install -y --no-install-recommends bzip2 ca-certificates gosu jq locales tini wget && rm -rf /var/lib/apt/lists/* &&\
-  TS_SERVER_VER="$(wget -q -O - https://www.teamspeak.com/versions/server.json | jq -r '.linux.x86_64.version')" &&\
+  apt-get install -y --no-install-recommends bzip2 ca-certificates gosu jq locales tini wget &&\
+  TS_SERVER_VER="${TS_SERVER_VER:-$(wget -q -O - https://www.teamspeak.com/versions/server.json | jq -r '.linux.x86_64.version')}" &&\
   wget -nv "https://files.teamspeak-services.com/releases/server/${TS_SERVER_VER}/teamspeak3-server_linux_amd64-${TS_SERVER_VER}.tar.bz2" -O /tmp/teamspeak.tar.bz2 &&\
   tar jxf /tmp/teamspeak.tar.bz2 -C /opt &&\
   mv /opt/teamspeak3-server_* "${TS_DIRECTORY}" &&\
