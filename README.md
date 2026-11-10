@@ -9,6 +9,10 @@ based off of `debian:bookworm`
 
 There are now two images; one is built on Alpine Linux and is about 30 MB with TS3; the other is Debian and that image with TS3 is about 175 MB.  Both images are functionally the same.
 
+> [!NOTE]
+> Version tags are not immutable. A tag like `3.13.9` keeps getting rebuilt with base image and security updates for as long as 3.13.9 is the current TeamSpeak release.
+  Once a newer release comes out, the old version tag stops being updated and keeps its last build. To lock in an exact image, pin by digest (e.g. `mbentley/teamspeak@sha256:...`).
+
 | Tag | Variant | Description |
 | --- | ------- | ----------- |
 | `latest`, `alpine` | Alpine | Most recent release |
@@ -20,10 +24,13 @@ There are now two images; one is built on Alpine Linux and is about 30 MB with T
 | `<major>.<minor>-debian` (e.g. `3.13-debian`) | Debian | Latest release within a minor version |
 | `<major>.<minor>.<bugfix>-debian` (e.g. `3.13.9-debian`) | Debian | A specific release |
 
+For the latest tag data, see [the tag list on Docker Hub](https://hub.docker.com/r/mbentley/teamspeak/tags).
+
+> [!NOTE]
+> This Dockerfile will _always_ include the very latest version of TS3 available.  For updates, re-pull the image and re-create the container, with your persistent data stored outside of the container.
+
 To pull this image:
 `docker pull mbentley/teamspeak`
-
-**Note**: This Dockerfile will _always_ include the very latest version of TS3 available.  For updates, re-pull the image and re-create the container, with your persistent data stored outside of the container.
 
 Example usage (no persistent storage; for testing only - you will lose your data when the container is removed):
 
