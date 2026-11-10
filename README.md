@@ -9,8 +9,16 @@ based off of `debian:bookworm`
 
 There are now two images; one is built on Alpine Linux and is about 30 MB with TS3; the other is Debian and that image with TS3 is about 175 MB.  Both images are functionally the same.
 
-- `latest`, `alpine` - based on Alpine Linux
-- `debian` - based on Debian bookworm
+| Tag | Variant | Description |
+| --- | ------- | ----------- |
+| `latest`, `alpine` | Alpine | Most recent release |
+| `debian` | Debian | Most recent release |
+| `<major>`, `<major>-alpine` (e.g. `3`, `3-alpine`) | Alpine | Latest release within a major version |
+| `<major>.<minor>`, `<major>.<minor>-alpine` (e.g. `3.13`, `3.13-alpine`) | Alpine | Latest release within a minor version |
+| `<major>.<minor>.<bugfix>`, `<major>.<minor>.<bugfix>-alpine` (e.g. `3.13.9`, `3.13.9-alpine`) | Alpine | A specific release |
+| `<major>-debian` (e.g. `3-debian`) | Debian | Latest release within a major version |
+| `<major>.<minor>-debian` (e.g. `3.13-debian`) | Debian | Latest release within a minor version |
+| `<major>.<minor>.<bugfix>-debian` (e.g. `3.13.9-debian`) | Debian | A specific release |
 
 To pull this image:
 `docker pull mbentley/teamspeak`
@@ -19,7 +27,7 @@ To pull this image:
 
 Example usage (no persistent storage; for testing only - you will lose your data when the container is removed):
 
-```
+```bash
 docker run -d --name teamspeak \
   -e PUID=503 \
   -e PGID=503 \
@@ -46,7 +54,7 @@ Starting with [TeamSpeak 3.1.0](https://support.teamspeakusa.com/index.php?/Know
 
 1. Start container:
 
-    ```
+    ```bash
     docker run -d --restart=always --name teamspeak \
       -e PUID=503 \
       -e PGID=503 \
@@ -71,13 +79,13 @@ In order to disable client IP address logging to adhere to GDPR, set `TS3SERVER_
 
 For additional parameters, check the `Commandline Parameters` section of the `TeamSpeak Server - Quickstart Guide`.  You can also get Either add the parameters to `ts3server.ini` or specify them after the Docker image name.  The quickstart guide ships with the image and can be viewed with:
 
-```
+```bash
 docker run -t --rm --entrypoint cat mbentley/teamspeak /opt/teamspeak/doc/server_quickstart.md
 ```
 
 ## Example directly passing parameters
 
-```
+```bash
 docker run -d --restart=always --name teamspeak \
   -e PUID=503 \
   -e PGID=503 \
@@ -93,7 +101,7 @@ docker run -d --restart=always --name teamspeak \
 
 1. Create directory, touch the ini files, set permissions:
 
-    ```
+    ```bash
     mkdir -p /data/teamspeak
     touch /data/teamspeak/ts3server.ini
     chown -R 503:503 /data/teamspeak
@@ -101,7 +109,7 @@ docker run -d --restart=always --name teamspeak \
 
 1. Add config parameters to the `ts3server.ini`:
 
-    ```
+    ```bash
     default_voice_port=9987
     filetransfer_ip=0.0.0.0
     filetransfer_port=30033
@@ -111,7 +119,7 @@ docker run -d --restart=always --name teamspeak \
 
 1. Start container with the `inifile=/data/ts3server.ini` parameter to tell TeamSpeak where the ini file is:
 
-    ```
+    ```bash
     docker run -d --restart=always --name teamspeak \
       -e PUID=503 \
       -e PGID=503 \
